@@ -1,0 +1,32 @@
+require 'pry'
+
+# def reduce(array, start = 0)
+#   counter = 0
+#   return_value = start
+#   accumulator = 0
+
+#   while counter < array.size
+#     return_value += yield(accumulator, array[counter])
+#     counter += 1
+#   end
+
+#   return_value
+# end
+
+def reduce(array, default=0)
+  counter = 0
+  accumulator = default
+
+  while counter < array.size
+    accumulator = yield(accumulator, array[counter])
+    counter += 1
+  end
+
+  accumulator
+end
+
+array = [1, 2, 3, 4, 5]
+
+p reduce(array) { |acc, num| acc + num }                    # => 15
+p reduce(array, 10) { |acc, num| acc + num }                # => 25
+p reduce(array) { |acc, num| acc + num if num.odd? }        # => NoMethodError: undefined method `+' for nil:NilClass
